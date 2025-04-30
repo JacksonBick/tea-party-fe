@@ -4,7 +4,7 @@ import "./SubscriptionContainer.css";
 
 const API_URL = "http://localhost:3000/api/v1";
 
-function SubscriptionContainer() {
+export default function SubscriptionContainer() {
   const [subscriptions, setSubscriptions] = useState([]);
 
   useEffect(() => {
