@@ -1,29 +1,44 @@
-describe("SubscriptionDetail", () => {
+describe("Subscription Detail Page", () => {
   beforeEach(() => {
     cy.visit("http://localhost:5173/subscriptions/1");
-    cy.contains("Total Price").should("exist");
   });
 
-  it("toggles tea inclusion in total price without removing it from the DOM", () => {
-    // Find the first tea card and check its initial state
-    cy.get(".tea-card").first().as("teaCard");
+  it("displays the subscription info and teas", () => {
+    cy.contains("Total Price").should("exist");
+    cy.get(".tea-card").should("have.length.at.least", 1);
+  });
 
-    // It should initially contain "Remove from Total"
-    cy.get("@teaCard").contains("Remove from Total").should("exist");
+  it("toggles a tea's inclusion in the total without removing it from DOM", () => {
+    cy.get(".tea-card").first().as("firstTea");
 
-    // Click to exclude the tea
-    cy.get("@teaCard").contains("Remove from Total").click();
+    cy.get("@firstTea").find("p").contains("Price:").invoke("text").then((priceText) => {
+      const teaPrice = parseFloat(priceText.replace(/[^\d.]/g, ""));
 
-    // Now it should show "Include in Total"
-    cy.get("@teaCard").contains("Include in Total").should("exist");
+      cy.contains("Total Price: $").invoke("text").then((originalText) => {
+        const originalTotal = parseFloat(originalText.replace(/[^\d.]/g, ""));
 
-    // Optionally check opacity changed to 0.5
-    cy.get("@teaCard").should("have.css", "opacity", "0.5");
+        cy.get("@firstTea").contains("Remove from Total").click();
+        cy.get("@firstTea").contains("Include in Total").should("exist");
+        cy.get("@firstTea").should("have.css", "opacity", "0.5");
 
-    // Toggle it back
-    cy.get("@teaCard").contains("Include in Total").click();
-    cy.get("@teaCard").contains("Remove from Total").should("exist");
-    cy.get("@teaCard").should("have.css", "opacity", "1");
+        cy.get("@firstTea").contains("Include in Total").click();
+        cy.get("@firstTea").contains("Remove from Total").should("exist");
+        cy.get("@firstTea").should("have.css", "opacity", "1");
+      });
+    });
+  });
+
+  it("updates total price when max price filter is applied", () => {
+    cy.contains("Total Price: $").invoke("text").then((originalText) => {
+      const originalTotal = parseFloat(originalText.replace(/[^\d.]/g, ""));
+
+      cy.get("input[type='number']").clear().type("2.00");
+      cy.wait(500);
+
+      cy.contains("Total Price: $").invoke("text").then((filteredText) => {
+        const newTotal = parseFloat(filteredText.replace(/[^\d.]/g, ""));
+        expect(newTotal).to.be.lessThan(originalTotal);
+      });
+    });
   });
 });
-  
