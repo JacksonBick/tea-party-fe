@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "./SubscriptionContainer.css";
 
 const API_URL = "http://localhost:3000/api/v1";
 
-export default function SubscriptionContainer() {
+function SubscriptionContainer() {
   const [subscriptions, setSubscriptions] = useState([]);
 
   useEffect(() => {
@@ -13,19 +14,27 @@ export default function SubscriptionContainer() {
   }, []);
 
   return (
-    <div>
-      <h1>All Subscriptions</h1>
-      {subscriptions.length === 0 ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {subscriptions.map((sub) => (
-            <li key={sub.id}>
-              <Link to={`/subscriptions/${sub.id}`}>{sub.title}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    <div className="subscriptions-wrapper">
+    <h1>Tea Subscription Service </h1>
+    {subscriptions.length === 0 ? (
+      <p>Loading...</p>
+    ) : (
+      <div className="subscriptions-grid">
+      {subscriptions.map((sub) => {
+        console.log(sub.teas); 
+        return (
+          <Link to={`/subscriptions/${sub.id}`} key={sub.id} className="subscription-card">
+            <img
+              src={sub.teas[0]?.image_url}
+              alt={sub.title}
+              className="subscription-image"
+            />
+            <h3>{sub.title}</h3>
+          </Link>
+        );
+      })}
+      </div>
+    )}
+  </div>
+);
 }
