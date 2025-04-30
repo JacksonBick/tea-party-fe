@@ -1,12 +1,33 @@
-# React + Vite
+Project Overview
+This React frontend is part of a tea subscription application. It interacts with a Rails API backend to display detailed subscription data, including teas, customers, and pricing, and allows for filtering, status toggling, and user interactions.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules. This repo also includes Cypress and Router.
+Features
+View subscription details (title, status, frequency, total price)
 
-Currently, two official plugins are available:
+See associated teas and customers
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Filter teas by max price 
 
-## Expanding the ESLint configuration
+Add and subtract the prices of teas based on desired teas wanted in the subscription
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Cancel or reactivate a subscription
+
+Planning Process
+
+Subscriptions needed to display associated teas and customers
+
+Users required the ability to exclude teas from total price without deletion
+
+My Plan:
+I initially thought I had a completed backend, so I moved on to the frontend. I knew I needed two main pages:
+
+A subscriptions grid displaying all available subscriptions.
+
+A detail page that shows more information when a subscription is clicked (such as customers, prices, teas, etc.).
+
+The hardest part was getting the max price input field to work as desired—specifically, ensuring that when a decimal value is entered, any teas above that price would be excluded from the displayed list.
+
+If I were to continue this project, I would make the tea input field more user-friendly and meaningful, as I realized it doesn't currently offer much value from a user perspective. I would also improve the styling, as the current design is quite plain and lacks visual appeal.
+
+
+
