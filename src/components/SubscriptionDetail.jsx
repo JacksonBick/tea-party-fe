@@ -9,20 +9,6 @@ function SubscriptionDetail() {
   const [excludedTeas, setExcludedTeas] = useState([]);
   const [maxPrice, setMaxPrice] = useState("");
 
-  const filteredTeas = subscription?.teas?.filter((tea) => {
-    const price = parseFloat(tea.price);
-    const max = parseFloat(maxPrice);
-    const passesMaxCheck = !maxPrice || price <= max;
-    const notExcluded = !excludedTeas.includes(tea.id);
-  
-    return passesMaxCheck && notExcluded;
-  });
-
-  const totalPrice = filteredTeas?.reduce(
-    (sum, tea) => sum + (parseFloat(tea.price) || 0),
-    0
-  )?.toFixed(2);
-
   useEffect(() => {
     fetch(`${API_URL}/subscriptions/${id}`)
       .then((res) => res.json())
@@ -49,9 +35,22 @@ function SubscriptionDetail() {
 
   const toggleTeaInTotal = (teaId) => {
     setExcludedTeas((prev) =>
-      prev.includes(teaId) ? prev.filter((id) => id !== teaId) : [...prev, teaId]
+      prev.includes(teaId)
+        ? prev.filter((id) => id !== teaId)
+        : [...prev, teaId]
     );
   };
+
+  const totalPrice = subscription?.teas
+    ?.filter((tea) => {
+      const price = parseFloat(tea.price);
+      const max = parseFloat(maxPrice);
+      const passesMaxCheck = !maxPrice || price <= max;
+      const notExcluded = !excludedTeas.includes(tea.id);
+      return passesMaxCheck && notExcluded;
+    })
+    .reduce((sum, tea) => sum + (parseFloat(tea.price) || 0), 0)
+    .toFixed(2);
 
   if (!subscription) return <p>Loading...</p>;
 
@@ -61,7 +60,7 @@ function SubscriptionDetail() {
         <h1>{subscription.title}</h1>
         <Link to="/" className="back-button">← Back to Home</Link>
       </div>
-      
+
       <p><strong>Total Price:</strong> ${totalPrice}</p>
       <p>Status: {subscription.status}</p>
       <p>Frequency: {subscription.frequency}</p>
@@ -74,8 +73,7 @@ function SubscriptionDetail() {
       <ul>
         {subscription.customers?.map((customer, index) => (
           <li key={index}>
-            <strong>{customer.first_name} {customer.last_name}</strong>{" "}
-            — {customer.email}, {customer.address}
+            <strong>{customer.first_name} {customer.last_name}</strong>
           </li>
         ))}
       </ul>
@@ -95,16 +93,20 @@ function SubscriptionDetail() {
 
       <h2>Teas Included</h2>
       <div className="teas-grid">
-        {filteredTeas?.map((tea, index) => {
+        {subscription.teas?.map((tea, index) => {
+          const price = parseFloat(tea.price);
+          const isOverMax = maxPrice && price > parseFloat(maxPrice);
           const isExcluded = excludedTeas.includes(tea.id);
+          const dimmed = isExcluded || isOverMax;
+
           return (
             <div
               key={index}
               className="tea-card"
-              style={{ opacity: isExcluded ? 0.5 : 1 }}
+              style={{ opacity: dimmed ? 0.5 : 1 }}
             >
               <img
-                src={tea.image_url || "https://via.placeholder.com/100"}
+                src={tea.image_url}
                 alt={tea.title}
                 className="subscription-image"
               />
