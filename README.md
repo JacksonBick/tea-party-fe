@@ -1,31 +1,53 @@
-Project Overview
-This React frontend is part of a tea subscription application. It interacts with a Rails API backend to display detailed subscription data, including teas, customers, and pricing, and allows for filtering, status toggling, and user interactions.
+# Tea Party Frontend
 
-Features
-View subscription details (title, status, frequency, total price)
+This is the React frontend for my Tea Party subscription app. It connects to a Rails API backend to display subscription data — including teas, customers, and pricing — and gives users tools to interact with that data through filtering, toggling, and status updates.
 
-See associated teas and customers
+---
 
-Filter teas by max price 
+## Features
 
-Add and subtract the prices of teas based on desired teas wanted in the subscription
+- View subscription details (title, status, frequency, and total price)
+- See associated teas and customers
+- Filter teas by max price
+- Dynamically add or subtract teas from the total price without deleting them
+- Cancel or reactivate a subscription
 
-Cancel or reactivate a subscription
+---
 
-Planning Process
+## Project Overview
 
-Subscriptions needed to display associated teas and customers
+This frontend is built to work with a JSON API and focuses on creating a smooth and responsive user experience. Subscriptions display full details, and users can:
 
-Users required the ability to exclude teas from total price without deletion
+- Click into a subscription to view more info
+- Exclude teas from the total without removing them entirely
+- Filter the teas by setting a max price
 
-My Plan:
-I initially thought I had a completed backend, so I moved on to the frontend. I knew I needed two main pages:
+---
 
-A subscriptions grid displaying all available subscriptions.
+## Planning Process
 
-A detail page that shows more information when a subscription is clicked (such as customers, prices, teas, etc.).
+From the start, I knew I needed two main views:
 
-The hardest part was getting the max price input field to work as desired—specifically, ensuring that when a decimal value is entered, any teas above that price would be excluded from the displayed list.
+1. A grid page showing all subscriptions
+2. A detailed view that shows subscription-specific info like teas, customers, pricing, etc.
 
-If I were to continue this project, I would make the tea input field more user-friendly and meaningful. I would also improve the styling, as the current design is quite plain and lacks visual appeal.
+The goal was to make things dynamic and clear, especially around pricing and interaction. One tricky part was getting the max price filter to behave exactly how I wanted — particularly when users entered decimals. I needed it to immediately hide any teas over that limit and keep the price calculation accurate.
 
+---
+
+## Reflections & Next Steps
+
+- If I were to continue the project, I'd improve the tea filter input to make it more intuitive and user-friendly.
+- I’d also definitely improve the visual styling — the current version is functional but pretty basic.
+
+---
+
+## Getting Started
+
+To run locally:
+
+```bash
+git clone git@github.com:JacksonBick/tea-party-fe.git
+cd tea-party-fe
+npm install
+npm start
