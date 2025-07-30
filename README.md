@@ -27,7 +27,5 @@ A detail page that shows more information when a subscription is clicked (such a
 
 The hardest part was getting the max price input field to work as desired—specifically, ensuring that when a decimal value is entered, any teas above that price would be excluded from the displayed list.
 
-If I were to continue this project, I would make the tea input field more user-friendly and meaningful, as I realized it doesn't currently offer much value from a user perspective. I would also improve the styling, as the current design is quite plain and lacks visual appeal.
-
-
+If I were to continue this project, I would make the tea input field more user-friendly and meaningful. I would also improve the styling, as the current design is quite plain and lacks visual appeal.
 
